@@ -21,7 +21,9 @@ function getRepo() {
   if (!value) {
     clearValue(autoc);
   } else {
-    fetch(`https://api.github.com/search/repositories?q=${value}`)
+    fetch(
+      `https://api.github.com/search/repositories?q=${value}&sort=stars&order=desc`
+    )
       .then((response) => response.json())
       .then((obj) => {
         if (obj.items.length >= 5) {
