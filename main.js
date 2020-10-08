@@ -40,7 +40,7 @@ function getRepo() {
           autoc.appendChild(repo);
           repo.textContent = item.name;
         });
-        autoc.addEventListener("click", (e) =>
+        autoc.addEventListener("click", (e) => {
           arr.forEach((item) => {
             if (item.name === e.target.textContent) {
               const repoList = document.createElement("div");
@@ -56,8 +56,10 @@ function getRepo() {
               repoList.appendChild(clsBtn);
               repositories.appendChild(repoList);
             }
-          })
-        );
+          });
+          input.value = null;
+          clearValue(autoc);
+        });
       })
       .catch((err) => console.log(err));
   }
