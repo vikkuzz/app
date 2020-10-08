@@ -1,9 +1,7 @@
 let input = document.querySelector(".input");
-let value = input.value;
 let body = document.querySelector("body");
 let autoc = document.querySelector(".autocomplete");
 let repositories = document.querySelector(".repositories");
-let repo = document.querySelector(".repo");
 
 const debounce = (fn, debounceTime) => {
   let timerID;
@@ -19,7 +17,7 @@ function clearValue(container) {
 
 function getRepo() {
   let value = input.value;
-  if (!input.value) {
+  if (!value) {
     clearValue(autoc);
   } else {
     fetch(`https://api.github.com/search/repositories?q=${value}`)
@@ -41,12 +39,36 @@ function getRepo() {
           autoc.appendChild(repo);
           repo.textContent = item.name;
         });
+        autoc.addEventListener("click", (e) =>
+          arr.forEach((item) => {
+            if (item.name === e.target.textContent) {
+              const repoList = document.createElement("div");
+              const wrapInfo = document.createElement("div");
+              const clsBtn = document.createElement("button");
+              clsBtn.textContent = "X";
+              wrapInfo.innerText = `Name: ${item.name}
+               Owner: ${item.owner.login}
+               Stars: ${item.stargazers_count}`;
+              repoList.appendChild(wrapInfo);
+              repoList.appendChild(clsBtn);
+              repositories.appendChild(repoList);
+            }
+          })
+        );
+        repositories.addEventListener("click", (e) => {
+          repositories.removeChild(e.target.parentNode);
+        });
       })
       .catch((err) => console.log(err));
   }
 }
 
 input.addEventListener("keyup", debounce(getRepo, 500));
-repo.addEventListener("click", () => {
-  repositories.appendChild("repo");
-});
+
+function addRepo() {
+  if (autoc.classList.contains("repo")) {
+    repo.addEventListener("click", () => console.log(repo.textContent));
+  } else {
+    autoc.addEventListener("click", () => alert("aaa"));
+  }
+}
