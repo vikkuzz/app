@@ -13,6 +13,7 @@ body {
 .repositories div {
     display: flex;
     justify-content: space-between;
+    padding: 2px;
 }
 
 .autocomplete {

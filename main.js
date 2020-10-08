@@ -2,6 +2,7 @@ let input = document.querySelector(".input");
 let body = document.querySelector("body");
 let autoc = document.querySelector(".autocomplete");
 let repositories = document.querySelector(".repositories");
+let battons = document.querySelectorAll("button");
 
 const debounce = (fn, debounceTime) => {
   let timerID;
@@ -45,19 +46,18 @@ function getRepo() {
               const repoList = document.createElement("div");
               const wrapInfo = document.createElement("div");
               const clsBtn = document.createElement("button");
+              clsBtn.classList.add("remove");
+              removeItem(clsBtn);
               clsBtn.textContent = "X";
-              wrapInfo.innerText = `Name: ${item.name}
-               Owner: ${item.owner.login}
-               Stars: ${item.stargazers_count}`;
+              wrapInfo.innerText = `Название: ${item.name}
+               Владелец: ${item.owner.login}
+               Звезды: ${item.stargazers_count}`;
               repoList.appendChild(wrapInfo);
               repoList.appendChild(clsBtn);
               repositories.appendChild(repoList);
             }
           })
         );
-        repositories.addEventListener("click", (e) => {
-          repositories.removeChild(e.target.parentNode);
-        });
       })
       .catch((err) => console.log(err));
   }
@@ -65,10 +65,8 @@ function getRepo() {
 
 input.addEventListener("keyup", debounce(getRepo, 500));
 
-function addRepo() {
-  if (autoc.classList.contains("repo")) {
-    repo.addEventListener("click", () => console.log(repo.textContent));
-  } else {
-    autoc.addEventListener("click", () => alert("aaa"));
-  }
+function removeItem(block) {
+  block.addEventListener("click", function (e) {
+    this.parentNode.remove();
+  });
 }
